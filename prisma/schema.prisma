@@ -17,8 +17,8 @@ datasource db {
 model Books {
   id       String   @id @default(cuid())
   title    String
-  status   String
+  status   String?  @default("READING")
   resume   String?
-  imageURL String?
+  imageURL String
   createAt DateTime @default(now())
 }

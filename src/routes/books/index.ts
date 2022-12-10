@@ -35,4 +35,34 @@ export async function booksRoutes(fastify: FastifyInstance) {
 
 		return book
 	})
+
+	fastify.post('/books', async (request, reply) => {
+		const createBookParams = z.object({
+			title: z.string(),
+			imageURL: z.string(),
+		})
+
+		const { title, imageURL } = createBookParams.parse(request.body)
+
+		if (!title || !imageURL) {
+			console.log('aqui')
+			return reply.status(400).send({
+				message:
+					'You need to pass title, status and imageURL of the book to register',
+			})
+		}
+
+		const book = await prisma.books.create({
+			data: {
+				title,
+				imageURL,
+			},
+		})
+
+		if (!book) {
+			return reply.status(500).send({ message: 'Error registering the book' })
+		}
+
+		return reply.status(201).send({ book })
+	})
 }
