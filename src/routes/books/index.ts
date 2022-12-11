@@ -65,4 +65,46 @@ export async function booksRoutes(fastify: FastifyInstance) {
 
 		return reply.status(201).send({ book })
 	})
+
+	fastify.put('/books/:id', async (request, reply) => {
+		const bookId = z.object({
+			id: z.string(),
+		})
+
+		const bookUpdateBody = z.object({
+			title: z.string(),
+			imageURL: z.string(),
+		})
+
+		const { id } = bookId.parse(request.params)
+		const { title, imageURL } = bookUpdateBody.parse(request.body)
+
+		const book = await prisma.books.findUnique({
+			where: {
+				id,
+			},
+		})
+
+		if (!id) {
+			return reply
+				.status(400)
+				.send({ message: 'You need to pass id of the book' })
+		}
+
+		if (!book) {
+			return reply.status(404).send({ message: 'Book not found' })
+		}
+
+		await prisma.books.updateMany({
+			where: {
+				id: book.id,
+			},
+			data: {
+				title,
+				imageURL,
+			},
+		})
+
+		return reply.status(204).send()
+	})
 }
