@@ -107,4 +107,36 @@ export async function booksRoutes(fastify: FastifyInstance) {
 
 		return reply.status(204).send()
 	})
+
+	fastify.delete('/books/:id', async (request, reply) => {
+		const bookId = z.object({
+			id: z.string(),
+		})
+
+		const { id } = bookId.parse(request.params)
+
+		const book = await prisma.books.findUnique({
+			where: {
+				id,
+			},
+		})
+
+		if (!id) {
+			return reply
+				.status(400)
+				.send({ message: 'You need to pass id of the book' })
+		}
+
+		if (!book) {
+			return reply.status(404).send({ message: 'Book not found' })
+		}
+
+		await prisma.books.delete({
+			where: {
+				id: book.id,
+			},
+		})
+
+		return reply.status(200).send({ message: 'Book deleted successfully' })
+	})
 }
