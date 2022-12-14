@@ -9,7 +9,7 @@ enum Status {
 }
 
 async function boostrap() {
-	const book = await prisma.books.create({
+	await prisma.books.create({
 		data: {
 			title: 'Orientação a Objetos Aprenda seus conceitos e suas aplicabilidades de forma efetiva',
 			status: Status.READING,

@@ -1,4 +1,4 @@
-# fly.toml file generated for mybooks-api on 2022-12-13T21:08:05-03:00
+# fly.toml file generated for mybooks-api on 2022-12-14T20:22:55-03:00
 
 app = "mybooks-api"
 kill_signal = "SIGINT"
@@ -14,14 +14,6 @@ processes = []
   cmd = []
   entrypoint = []
   exec = []
-
-[[services]]
-  internal_port = 5432 # Postgres instance
-  protocol = "tcp"
-
-[[services.ports]]
-  handlers = ["pg_tls"]
-  port = 5432
 
 [[services]]
   http_checks = []
@@ -48,5 +40,3 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
-
-

@@ -1,11 +1,13 @@
-FROM node:18-alpine as builder
+FROM node:latest as builder
 
 ENV NODE_ENV build
 
 USER node
 WORKDIR /home/node
-COPY prisma ./prisma
+
+COPY prisma* ./
 COPY package*.json ./
+
 RUN npm ci
 
 COPY --chown=node:node . .
@@ -14,12 +16,10 @@ RUN npm run build \
 
 # ---
 
-FROM node:18-alpine
+FROM node:latest
 
 ENV NODE_ENV production
 EXPOSE 8080
-EXPOSE 443
-EXPOSE 80
 
 USER node
 WORKDIR /home/node

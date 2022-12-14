@@ -4,6 +4,8 @@ import { config } from 'dotenv'
 
 config({ path: '.env' })
 
+const PORT = process.env.NODE_ENV !== 'production' ? 3333 : process.env.PORT
+
 import { booksRoutes } from './routes/books'
 
 async function boostrap() {
@@ -17,7 +19,7 @@ async function boostrap() {
 
 	await fastify.register(booksRoutes)
 
-	await fastify.listen(8080, '0.0.0.0')
+	await fastify.listen(PORT, '0.0.0.0')
 }
 
 boostrap()
