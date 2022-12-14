@@ -2,12 +2,17 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+enum Status {
+	READING = 'READING',
+	PAUSED = 'PAUSED',
+	COMPLETED = 'COMPLETED',
+}
+
 async function boostrap() {
-	const book = await prisma.books.create({
+	await prisma.books.create({
 		data: {
-			title:
-				'Orientação a Objetos Aprenda seus conceitos e suas aplicabilidades de forma efetiva',
-			status: 'READING',
+			title: 'Orientação a Objetos Aprenda seus conceitos e suas aplicabilidades de forma efetiva',
+			status: Status.READING,
 			imageURL:
 				'https://cdn.shopify.com/s/files/1/0155/7645/products/OrientacaoaObjetos_ebook_large.jpg?v=1631653034',
 			resume:
