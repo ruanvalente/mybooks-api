@@ -1,5 +1,9 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import { config } from 'dotenv'
+
+config({ path: '.env' })
+
 import { booksRoutes } from './routes/books'
 
 async function boostrap() {
@@ -13,7 +17,7 @@ async function boostrap() {
 
 	await fastify.register(booksRoutes)
 
-	await fastify.listen({ port: 3333 })
+	await fastify.listen(8080, '0.0.0.0')
 }
 
 boostrap()
