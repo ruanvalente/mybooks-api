@@ -5,7 +5,11 @@ import { prisma } from '../../lib/prisma'
 
 export async function booksRoutes(fastify: FastifyInstance) {
 	fastify.get('/books', async () => {
-		const books = await prisma.books.findMany()
+		const books = await prisma.books.findMany({
+			orderBy: {
+				title: 'desc',
+			},
+		})
 
 		return books
 	})
@@ -24,9 +28,7 @@ export async function booksRoutes(fastify: FastifyInstance) {
 		})
 
 		if (!id) {
-			return reply
-				.status(400)
-				.send({ message: 'You need to pass id of the book' })
+			return reply.status(400).send({ message: 'You need to pass id of the book' })
 		}
 
 		if (!book) {
@@ -47,8 +49,7 @@ export async function booksRoutes(fastify: FastifyInstance) {
 		if (!title || !imageURL) {
 			console.log('aqui')
 			return reply.status(400).send({
-				message:
-					'You need to pass title, status and imageURL of the book to register',
+				message: 'You need to pass title, status and imageURL of the book to register',
 			})
 		}
 
@@ -86,9 +87,7 @@ export async function booksRoutes(fastify: FastifyInstance) {
 		})
 
 		if (!id) {
-			return reply
-				.status(400)
-				.send({ message: 'You need to pass id of the book' })
+			return reply.status(400).send({ message: 'You need to pass id of the book' })
 		}
 
 		if (!book) {
@@ -122,9 +121,7 @@ export async function booksRoutes(fastify: FastifyInstance) {
 		})
 
 		if (!id) {
-			return reply
-				.status(400)
-				.send({ message: 'You need to pass id of the book' })
+			return reply.status(400).send({ message: 'You need to pass id of the book' })
 		}
 
 		if (!book) {
